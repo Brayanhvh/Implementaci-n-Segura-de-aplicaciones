@@ -1,0 +1,44 @@
+# Nombre del flujo de trabajo
+name: Pipeline CI-CD (Pruebas, Escaneo y Despliegue)
+
+# Disparador: Se ejecuta cada vez que hay un push a la rama 'main'
+on:
+  push:
+    branches: [ "main" ]
+
+# Trabajos a ejecutar
+jobs:
+  build-scan-and-deploy:
+    # Usamos una máquina virtual de Ubuntu
+    runs-on: ubuntu-latest
+    
+    # Pasos del trabajo
+    steps:
+    # Paso 1: Descargar el código del repositorio
+    - name: 1. Checkout del Repositorio
+      uses: actions/checkout@v4
+
+    # Paso 2: Configurar el entorno (Node.js)
+    - name: 2. Configurar Node.js v18
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    # Paso 3: Construcción de la aplicación (Requisito de la tarea)
+    - name: 3. Construcción (npm install)
+      run: npm install
+
+    # Paso 4: Pruebas automatizadas (Requisito de la tarea)
+    - name: 4. Pruebas Automatizadas (npm test)
+      run: npm test
+
+    # Paso 5: Escaneo de vulnerabilidades (Requisito de la tarea)
+    - name: 5. Escaneo de Vulnerabilidades (npm audit)
+      # Falla el pipeline si encuentra vulnerabilidades de nivel ALTO o CRÍTICO
+      run: npm audit --audit-level=high
+
+    # Paso 6: Despliegue en Pruebas (Requisito de la tarea)
+    - name: 6. Despliegue en Entorno de Pruebas (Render)
+      # Este paso solo se ejecuta si todos los anteriores (3, 4 y 5) fueron exitosos
+      if: success()
+      run: curl "${{ secrets.RENDER_DEPLOY_HOOK }}"
