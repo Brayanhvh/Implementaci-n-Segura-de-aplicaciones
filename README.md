@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # nodejs-getting-started
 
 A barebones Node.js app using [Express](https://expressjs.com/).
@@ -64,3 +65,7 @@ For more information about using Node.js on Heroku, see these Dev Center article
 
 [cedar]: https://devcenter.heroku.com/articles/generations#cedar
 [fir]: https://devcenter.heroku.com/articles/generations#fir
+=======
+# Implementaci-n-Segura-de-aplicaciones
+Implementación Segura de aplicaciones, del curso seguridad de aplicaciones de la maestría en seguridad informática UMG.
+>>>>>>> efd4a9ef80b0f5b29ac9828eb4b36829b35d105e
